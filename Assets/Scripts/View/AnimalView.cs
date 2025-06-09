@@ -23,5 +23,10 @@ public class AnimalView : MonoBehaviour
         {
             foodChainController.CollideAnimals(this, other.gameObject);
         }
+        
+        if (other.transform.CompareTag("Obstacle"))
+        {
+            transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
+        }
     }
 }

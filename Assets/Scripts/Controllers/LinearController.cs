@@ -38,20 +38,7 @@ public class LinearController : MonoBehaviour
         }
         
         nextTimeRotate = Time.time + linearConfig.Frequency;
-        var angle = CalculateAngle();
+        var angle = Random.Range(-linearConfig.RotationAngle, linearConfig.RotationAngle);
         transform.rotation *= Quaternion.AngleAxis(angle, Vector3.up);
-    }
-    
-    private float CalculateAngle()
-    {
-        var isCollide = boxCollider.IsCollide(gameModel.Obstacles, linearConfig.AvoidObstacleDistance);
-
-        if (isCollide)
-        {
-            transform.position += -transform.forward * 0.15f;
-            return linearConfig.AvoidObstacleAngle;
-        }
-
-        return Random.Range(-linearConfig.RotationAngle, linearConfig.RotationAngle);
     }
 }

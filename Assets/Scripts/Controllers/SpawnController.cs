@@ -28,11 +28,11 @@ public class SpawnController : MonoBehaviour
         nextSpawn = Time.time + spawnConfig.Frequency;
 
         var prefab = spawnConfig.Animals.GetRandom();
-        var animal = pool.PopOrCreate(prefab, x=>x.Type == prefab.Type);
-        animal.transform.parent = transform;
+        var animal = pool.PopOrCreate(prefab, transform, x=>x.Type == prefab.Type);
         animal.transform.position = mainCamera.GetPointInCameraView(transform.position.y + animalSize);
         animal.transform.rotation = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up);
         animal.Setup(Guid.NewGuid());
         model.Animals.Add(animal);
+        model.OnAnimalSpawn?.Invoke();
     }
 }

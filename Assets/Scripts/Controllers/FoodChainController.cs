@@ -43,7 +43,7 @@ public class FoodChainController
     private void Eat(AnimalView winner, AnimalView loser)
     {
         model.Animals.Remove(loser);
-        model.OnAnimalEat?.Invoke(winner);
+        model.OnAnimalEat?.Invoke(winner, loser);
         pool.Add(loser);
     }
 }

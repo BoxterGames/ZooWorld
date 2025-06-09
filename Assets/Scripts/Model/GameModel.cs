@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GameModel
 {
-   public Action<AnimalView> OnAnimalEat;
+   public Action<AnimalView, AnimalView> OnAnimalEat;
+   public Action OnAnimalSpawn;
+   
    public List<AnimalView> Animals = new();
-   public List<BoxCollider> Obstacles;
    public int DeadPreys;
    public int DeadPredators;
 }

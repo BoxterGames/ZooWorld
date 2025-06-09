@@ -49,21 +49,9 @@ public class JumpController : MonoBehaviour
         }
         
         nextTimeJump = Time.time + jumpConfig.Frequency;
-        var angle = CalculateAngle();
+        var angle = Random.Range(-jumpConfig.AngleLimit, jumpConfig.AngleLimit);
         transform.rotation *= Quaternion.AngleAxis(angle, Vector3.up);
         var direction = transform.forward + Vector3.up;
         body.AddForce(direction.normalized * jumpConfig.Force);
-    }
-
-    private float CalculateAngle()
-    {
-        var isCollide = boxCollider.IsCollide(gameModel.Obstacles, jumpConfig.AvoidObstacleDistance);
-
-        if (isCollide)
-        {
-            return jumpConfig.AvoidObstacleAngle;
-        }
-
-        return Random.Range(-jumpConfig.AngleLimit, jumpConfig.AngleLimit);;
     }
 }
