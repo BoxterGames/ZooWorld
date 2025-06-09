@@ -5,10 +5,12 @@ using Zenject;
 public class AnimalView : MonoBehaviour
 {
     public Guid Id { get; private set; }
-    public AnimalType Type;
+    public AnimalType Type => type;
+  
+    [SerializeField] private AnimalType type;
 
     private FoodChainController foodChainController;
-
+    
     public void Setup(Guid id)
     {
         Id = id;
@@ -17,11 +19,9 @@ public class AnimalView : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (!other.transform.CompareTag("Animal"))
+        if (other.transform.CompareTag("Animal"))
         {
-            return;
+            foodChainController.CollideAnimals(this, other.gameObject);
         }
-        
-        foodChainController.CollideAnimals(this, other.gameObject);
     }
 }

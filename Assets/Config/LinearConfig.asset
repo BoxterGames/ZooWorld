@@ -16,3 +16,5 @@ MonoBehaviour:
   FrequencyMin: 0.5
   FrequencyMax: 1
   RotationAngle: 20
+  AvoidObstacleDistance: 0.4
+  AvoidObstacleAngle: 15

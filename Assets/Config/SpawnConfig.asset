@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f294d0a7809bfaf42935a0252f30f92e, type: 3}
   m_Name: SpawnConfig
   m_EditorClassIdentifier: 
+  Animals:
+  - {fileID: -1906749150058872, guid: dfc838c7d10fdc740b851a39ff927bbd, type: 3}
+  - {fileID: 2401348213235397349, guid: 8f28933b5c8eb8c4b8fc650ad0c4a30f, type: 3}
   AnimalLimit: 15
   FrequencyMin: 1
   FrequencyMax: 2

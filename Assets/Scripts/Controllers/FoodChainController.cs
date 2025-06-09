@@ -4,7 +4,7 @@ using Zenject;
 
 public class FoodChainController
 {
-    [Inject] private AnimalModel model;
+    [Inject] private GameModel model;
     [Inject] private ObjectPool<AnimalView> pool;
     
     public void CollideAnimals(AnimalView firstAnimal, GameObject otherAnimal)

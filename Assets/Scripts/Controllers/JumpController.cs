@@ -5,27 +5,39 @@ using Random = UnityEngine.Random;
 public class JumpController : MonoBehaviour
 {
     [SerializeField] private Rigidbody body;
+    [SerializeField] private BoxCollider boxCollider;
     
     private JumpConfig jumpConfig;
-
+    private GameModel gameModel;
+    
+    private const float epsilon = 0.001f;
     private Camera mainCamera;
-    private bool onFloor;
     private float nextTimeJump;
+    private float prevY;
 
     private void Awake()
     {
         mainCamera = Camera.main;
         jumpConfig = ProjectContext.Instance.Container.Resolve<JumpConfig>();
+        gameModel = ProjectContext.Instance.Container.Resolve<GameModel>();
     }
 
-    private void OnValidate()
+    private void OnEnable()
     {
-        body ??= GetComponent<Rigidbody>();
+        prevY = transform.position.y;
+        nextTimeJump = Time.time + jumpConfig.Frequency;
     }
 
     private void Update()
     {
-        if (Time.time < nextTimeJump || !onFloor)
+        if (Mathf.Abs(prevY - transform.position.y) > epsilon)
+        {
+            nextTimeJump = Time.time + jumpConfig.Frequency;    
+        }
+        
+        prevY = transform.position.y;
+        
+        if (Time.time < nextTimeJump)
         {
             return;
         }
@@ -37,23 +49,21 @@ public class JumpController : MonoBehaviour
         }
         
         nextTimeJump = Time.time + jumpConfig.Frequency;
-        var angle = Random.Range(-jumpConfig.AngleLimit, jumpConfig.AngleLimit);
+        var angle = CalculateAngle();
         transform.rotation *= Quaternion.AngleAxis(angle, Vector3.up);
         var direction = transform.forward + Vector3.up;
         body.AddForce(direction.normalized * jumpConfig.Force);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private float CalculateAngle()
     {
-        if (other.transform.CompareTag($"Floor"))
+        var isCollide = boxCollider.IsCollide(gameModel.Obstacles, jumpConfig.AvoidObstacleDistance);
+
+        if (isCollide)
         {
-            onFloor = true;
-            nextTimeJump = Time.time + jumpConfig.Frequency;
+            return jumpConfig.AvoidObstacleAngle;
         }
-    }
-    
-    private void OnCollisionExit(Collision other)
-    {
-        onFloor &= !other.transform.CompareTag($"Floor");
+
+        return Random.Range(-jumpConfig.AngleLimit, jumpConfig.AngleLimit);;
     }
 }

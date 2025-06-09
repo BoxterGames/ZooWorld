@@ -1,11 +1,14 @@
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class LinearController : MonoBehaviour
 {
     [SerializeField] private Rigidbody body;
- 
+    [SerializeField] private BoxCollider boxCollider;
+
     private LinearConfig linearConfig;
+    private GameModel gameModel;
     private Camera mainCamera;
     private float nextTimeRotate;
     
@@ -13,16 +16,14 @@ public class LinearController : MonoBehaviour
     {
         mainCamera = Camera.main;
         linearConfig = ProjectContext.Instance.Container.Resolve<LinearConfig>();
-    }
-
-    private void OnValidate()
-    {
-        body ??= GetComponent<Rigidbody>();
+        gameModel = ProjectContext.Instance.Container.Resolve<GameModel>();
     }
 
     private void Update()
     {
-        body.velocity = transform.forward * (linearConfig.LinearSpeed * Time.deltaTime);
+        var velocity = transform.forward * (linearConfig.LinearSpeed * Time.deltaTime);
+        velocity.y = body.velocity.y;
+        body.velocity = velocity;
      
         if (mainCamera.IsOutsideView(transform))
         {
@@ -37,7 +38,20 @@ public class LinearController : MonoBehaviour
         }
         
         nextTimeRotate = Time.time + linearConfig.Frequency;
-        var angle = Random.Range(-linearConfig.RotationAngle, linearConfig.RotationAngle);
+        var angle = CalculateAngle();
         transform.rotation *= Quaternion.AngleAxis(angle, Vector3.up);
+    }
+    
+    private float CalculateAngle()
+    {
+        var isCollide = boxCollider.IsCollide(gameModel.Obstacles, linearConfig.AvoidObstacleDistance);
+
+        if (isCollide)
+        {
+            transform.position += -transform.forward * 0.15f;
+            return linearConfig.AvoidObstacleAngle;
+        }
+
+        return Random.Range(-linearConfig.RotationAngle, linearConfig.RotationAngle);
     }
 }
