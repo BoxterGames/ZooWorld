@@ -19,5 +19,6 @@ public class ProjectInstaller : ScriptableObjectInstaller<ProjectInstaller>
         Container.Bind<AnimalModel>().AsSingle();
         
         Container.Bind<FoodChainController>().AsSingle();
+        Container.Bind<ObjectPool<AnimalView>>().AsSingle();
     }
 }

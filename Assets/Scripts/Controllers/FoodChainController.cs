@@ -5,7 +5,8 @@ using Zenject;
 public class FoodChainController
 {
     [Inject] private AnimalModel model;
-
+    [Inject] private ObjectPool<AnimalView> pool;
+    
     public void CollideAnimals(AnimalView firstAnimal, GameObject otherAnimal)
     {
         var secondAnimal = model.Animals.FirstOrDefault(x => x.gameObject == otherAnimal);
@@ -43,6 +44,6 @@ public class FoodChainController
     {
         model.Animals.Remove(loser);
         model.OnAnimalEat?.Invoke(winner);
-        Object.Destroy(loser.gameObject);
+        pool.Add(loser);
     }
 }
