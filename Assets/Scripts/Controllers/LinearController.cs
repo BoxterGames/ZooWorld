@@ -4,14 +4,15 @@ using Zenject;
 public class LinearController : MonoBehaviour
 {
     [SerializeField] private Rigidbody body;
-    [Inject] private LinearConfig linearConfig;
-
+ 
+    private LinearConfig linearConfig;
     private Camera mainCamera;
     private float nextTimeRotate;
     
     private void Awake()
     {
         mainCamera = Camera.main;
+        linearConfig = ProjectContext.Instance.Container.Resolve<LinearConfig>();
     }
 
     private void OnValidate()

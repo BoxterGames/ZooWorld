@@ -5,7 +5,8 @@ using Random = UnityEngine.Random;
 public class JumpController : MonoBehaviour
 {
     [SerializeField] private Rigidbody body;
-    [Inject] private JumpConfig jumpConfig;
+    
+    private JumpConfig jumpConfig;
 
     private Camera mainCamera;
     private bool onFloor;
@@ -14,6 +15,7 @@ public class JumpController : MonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
+        jumpConfig = ProjectContext.Instance.Container.Resolve<JumpConfig>();
     }
 
     private void OnValidate()

@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03e2fa6f82f55143b41cfcab4b6c6fc, type: 3}
   m_Name: ProjectInstaller
   m_EditorClassIdentifier: 
+  animalConfig: {fileID: 11400000, guid: 95122608b58e11c4d9ada408a2c33778, type: 2}
   jumpConfig: {fileID: 11400000, guid: f2555903655217a4e90697dc375ee296, type: 2}
   linearConfig: {fileID: 11400000, guid: c275f86213ef9d945bd272f75b6154fe, type: 2}
+  spawnConfig: {fileID: 11400000, guid: ceb994ded8b8f01489136a2b8df3a25b, type: 2}
